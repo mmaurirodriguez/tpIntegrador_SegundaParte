@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { auth, db } from '../firebase/config';
+import { auth, db } from './src/firebase/config';
 import firebase from 'firebase';
 
 //falta like : [] es NewPost para que funciones --> osea la creacion del post
@@ -17,6 +17,10 @@ class Post extends Component {
             .doc(this.props.data.id)
             .update({
                 like: this.props.data.data.like.includes(auth.currentUser.email)
+                    ? firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
+                    : firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email),
+
+                comentario: this.props.data.data.comentario.includes(auth.currentUser.email)
                     ? firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
                     : firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
             })
@@ -42,6 +46,15 @@ class Post extends Component {
                         {this.props.data.data.like.includes(auth.currentUser.email)
                             ? '❤️'
                             : '🤍'}
+                    </Text>
+                </Pressable>
+                 <Pressable
+                    onPress={() => this.actualizarDatos()}
+                >
+                    <Text style={styles.icon}>
+                        {this.props.data.data.comentario.includes(auth.currentUser.email)
+                            ? '💬'
+                            : "Registrese para poder comentar"}
                     </Text>
                 </Pressable>
             </View>

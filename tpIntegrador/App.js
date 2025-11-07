@@ -2,9 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { auth } from './src/firebase/config';
+import { auth, db} from './firebase/config';
 import Login from './src/screens/Login';
 import { Component } from 'react';
+import Register from './src/screens/Register';
 const Stack = createNativeStackNavigator()
 
 class App extends Component {
@@ -40,7 +41,10 @@ class App extends Component {
             <Stack.Navigator>
               {this.state.logged ?
                 (<Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />) :
-                (<Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />)}
+                (<Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />,
+                <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />)
+                
+                }
             </Stack.Navigator>
           )}
       </NavigationContainer>
