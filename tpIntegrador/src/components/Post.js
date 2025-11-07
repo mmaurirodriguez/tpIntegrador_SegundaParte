@@ -34,7 +34,7 @@ class Post extends Component {
         return (
             <View style={styles.card}>
                 <Text style={styles.email}>{this.props.data.data.email}</Text>
-                <Text style={styles.mensaje}>{this.props.data.data.mensaje}</Text>
+                <Text style={styles.comentario}>{this.props.data.data.comentario}</Text>
                 <Text style={styles.likes}>{this.props.data.data.like.length}</Text>
 
 
@@ -54,7 +54,7 @@ class Post extends Component {
                     <Text style={styles.icon}>
                         {this.props.data.data.comentario.includes(auth.currentUser.email)
                             ? '💬'
-                            : "Registrese para poder comentar"}
+                            : "💬 Registrese para poder comentar"}
                     </Text>
                 </Pressable>
             </View>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         marginBottom: 5,
     },
-    mensaje: {
+    comentario: {
         fontSize: 16,
         color: '#333',
         marginBottom: 10,
