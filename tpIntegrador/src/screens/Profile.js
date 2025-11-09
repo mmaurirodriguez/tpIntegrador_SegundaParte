@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TextInput, ActivityIndicator } from 'react-native';
 import { auth, db } from '../firebase/config';
+import { FlatList } from 'react-native-web';
 
 
 class Profile extends Component{

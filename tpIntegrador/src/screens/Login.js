@@ -28,7 +28,7 @@ class Login extends Component {
       .then((response) => {
         this.setState({ loggedIn: true });
         console.log('Usuario logueado:', response.user.email);
-        this.props.navigation.navigate('Home', { screen: 'Home' })
+        this.props.navigation.navigate('HomeMenu', { screen: 'Home' })
       })
       .catch(error => {
         this.setState({ error: 'Credenciales inválidas.' })

@@ -19,10 +19,6 @@ class Post extends Component {
                 like: this.props.data.data.like.includes(auth.currentUser.email)
                     ? firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
                     : firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email),
-
-                comentario: this.props.data.data.comentario.includes(auth.currentUser.email)
-                    ? firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
-                    : firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
             })
             .then(() => {
                 // código a ejecutar luego de actualizar
@@ -46,15 +42,6 @@ class Post extends Component {
                         {this.props.data.data.like.includes(auth.currentUser.email)
                             ? '❤️'
                             : '🤍'}
-                    </Text>
-                </Pressable>
-                 <Pressable
-                    onPress={() => this.actualizarDatos()}
-                >
-                    <Text style={styles.icon}>
-                        {this.props.data.data.comentario.includes(auth.currentUser.email)
-                            ? '💬'
-                            : "💬 Registrese para poder comentar"}
                     </Text>
                 </Pressable>
             </View>
