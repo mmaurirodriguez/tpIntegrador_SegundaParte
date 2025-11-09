@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import { View, Pressable, Text, StyleSheet, TextInput, Image } from "react-native"
+import { View, Pressable, Text, StyleSheet, TextInput, Image } from "react-native";
 import { auth, db } from "../firebase/config";
 
-
-class NuevoPost extends Component {
+class NewPost extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       comentario: "",
       logged: false,
       loading: true
-    }
+    };
   }
 
   componentDidMount() {
@@ -19,69 +18,87 @@ class NuevoPost extends Component {
         this.setState({
           logged: true,
           loading: false
-        })
+        });
       } else {
         this.setState({
           logged: false,
           loading: false
-        })
+        });
       }
-    })
+    });
   }
 
   OnSubmit() {
-    db.collection('posts').add({
-      email: auth.currentUser.email,
-      comentario: this.state.comentario,
-      createdAt: Date.now(),
-      like: []
-    })
-      .then(() => {
-        this.setState({ comentario: "" });
-        this.props.navigation.navigate('Home')
-      })
-      .catch(e => console.log(e))
+    if (this.state.comentario.length > 0) {
+      db.collection("posts")
+        .add({
+          email: auth.currentUser.email,
+          comentario: this.state.comentario,
+          createdAt: Date.now(),
+          like: []
+        })
+        .then(() => {
+          this.setState({ comentario: "", error: "" });
+          this.props.navigation.navigate("Home");
+        })
+        .catch(e => console.log(e));
+    } else {
+      this.setState({ error: "El comentario no puede estar vacío" });
+    }
   }
 
   render() {
     return (
-      <View>  {this.state.loading} </View>
-        ?
-        <View style={styles.container}>
-          <Image style={styles.image}
-            source={require('../../assets/letterbox.webp')}
-            resizeMode="contain" />
-          <Text style={styles.title}> Agrega un Post</Text>
+      <View>
+        {this.state.loading}
+      </View>
+        ? (
+          <View style={styles.container}>
+            <Image
+              style={styles.image}
+              source={require("../../assets/letterbox.webp")}
+              resizeMode="contain"
+            />
+            <Text style={styles.title}>Agrega un Post</Text>
 
-          <TextInput
-            style={styles.texto}
-            keyboardType='default'
-            placeholder='Agregue un comentario'
-            onChangeText={text => this.setState({ comentario: text })}
-            value={this.state.comentario}
-          />
-          <Pressable style={styles.boton} onPress={() => this.OnSubmit()}>
-            <Text style={styles.text}>Agregar</Text>
-          </Pressable>
-        </View> :
-        <Text>Debe estar logeado para hacer un comentario </Text>
-    )
+            <TextInput
+              style={styles.texto}
+              keyboardType="default"
+              placeholder="Agregue un comentario"
+              onChangeText={text => this.setState({ comentario: text })}
+              value={this.state.comentario}
+            />
+
+            {this.state.error ? (
+              <Text style={styles.error}>{this.state.error}</Text>
+            ) : null}
+
+            <Pressable style={styles.boton} onPress={() => this.OnSubmit()}>
+              <Text style={styles.text}>Agregar</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <Text>Debe estar logeado para hacer un comentario</Text>
+        )
+    );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(32 42 48)',   
-    justifyContent: 'flex-start',    
+    backgroundColor: 'rgb(32 42 48)',
+    justifyContent: 'flex-start',
     paddingHorizontal: 16,
     paddingBottom: 24,
     paddingTop: 48,
   },
-
   image: {
-    alignSelf: "center"
+    alignSelf: "center",
+    width: 200,          
+    height: 100,         
+    marginBottom: 10,
   },
-
   title: {
     fontSize: 34,
     fontWeight: '800',
@@ -91,11 +108,10 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   texto: {
-    height: 140,
+    height: 100,
     width: '100%',
     textAlignVertical: 'top',
     paddingHorizontal: 12,
-   
     borderColor: '#2a2f36',
     borderRadius: 8,
     backgroundColor: '#171a1f',
@@ -104,29 +120,35 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.08,
     shadowRadius: 5,
-   
     elevation: 2,
   },
-
   boton: {
-    width: '100%',
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: '#2a2f36',
-    backgroundColor: 'transparent',
+   width: '100%',
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#00e054',
+    backgroundColor: '#0a0f14',
     alignSelf: 'stretch',
-    marginTop: 8,
+    marginTop: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 3,
   },
-
   text: {
-    color: '#d7dbe0',
+    color: '#ffffffff',
     fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'left',
+    fontWeight: '800',
+    textAlign: 'center',
+    letterSpacing: 0.2,
   },
-
+  error: {
+    color: '#ff5a5f',  
+    fontSize: 14,
+    marginBottom: 8,
+  },
   notLogged: {
     flex: 1,
     backgroundColor: '#0f1216',
@@ -136,7 +158,8 @@ const styles = StyleSheet.create({
 });
 
 
-export default NuevoPost;
+export default NewPost;
+
 
 
 

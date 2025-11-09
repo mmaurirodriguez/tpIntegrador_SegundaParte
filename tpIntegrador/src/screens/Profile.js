@@ -1,69 +1,74 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TextInput, ActivityIndicator, Image } from 'react-native';
 import { auth, db } from '../firebase/config';
 import { FlatList } from 'react-native-web';
 
 
-class Profile extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            email: '',
-            usuario: '',
-            posteos: [],
-            loading: true
-        }
+class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      usuario: '',
+      posteos: [],
+      loading: true
     }
-
-    componentDidMount(){
-        if(auth.currentUser){
-            this.setState({
-                email: auth.currentUser.email,
-                usuario: auth.currentUser.displayName
-            })
-         db.collection('posts').where("owner", "==", auth.currentUser.email)
-         .onSnapshot(
-            docs => {
-                let posteos = [];
-                docs.forEach(doc => {
-                    users.push({
-                        id: doc.id,
-                        data: doc.data()
-                    })
-                    this.setState({
-                        posteos: posteos,
-                        loading: false
-                    })
-                })
-            }
-        )
-    }  
-}
-
-    eliminarPosteo(id) {
-        db.collection("posts").doc(id)
-        .delete()
-        .then(() => console.log("Post eliminado"))
-        .catch((error) => console.log(error));
   }
 
-    logout(){
-        auth.signOut()
-        .then(()=>{
-            this.props.navigation.navigate('Login');
-        })
-        .catch((error)=>{
-            console.log(error);
-            
-        })
+  componentDidMount() {
+    if (auth.currentUser) {
+      this.setState({
+        email: auth.currentUser.email,
+        usuario: auth.currentUser.displayName
+      })
+      db.collection('posts').where("owner", "==", auth.currentUser.email)
+        .onSnapshot(
+          docs => {
+            let posteos = [];
+            docs.forEach(doc => {
+              users.push({
+                id: doc.id,
+                data: doc.data()
+              })
+              this.setState({
+                posteos: posteos,
+                loading: false
+              })
+            })
+          }
+        )
     }
+  }
+
+  eliminarPosteo(id) {
+    db.collection("posts").doc(id)
+      .delete()
+      .then(() => console.log("Post eliminado"))
+      .catch((error) => console.log(error));
+  }
+
+  logout() {
+    auth.signOut()
+      .then(() => {
+        this.props.navigation.navigate('Login');
+      })
+      .catch((error) => {
+        console.log(error);
+
+      })
+  }
 
 
-    render() {
+  render() {
     return (
       <View style={styles.container}>
+        <Image
+          style={styles.image}
+          source={require("../../assets/letterbox.webp")}
+          resizeMode="contain"
+        />
         <Text style={styles.title}>Mi Perfil</Text>
-        {this.state.loading?(<ActivityIndicator size='large' color='green'/>):null}
+        {this.state.loading ? (<ActivityIndicator size='large' color='green' />) : null}
 
         <Text style={styles.text}>Nombre: {this.state.usuario}</Text>
         <Text style={styles.text}>Email: {this.state.email}</Text>
@@ -97,64 +102,115 @@ class Profile extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff0f6', 
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    marginTop: 20,
+    backgroundColor: 'rgb(32,42,48)', 
+    paddingHorizontal: 18,
+    paddingTop: 46,
+    paddingBottom: 24,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#e91e63', 
-    marginBottom: 20,
-  },
-  input: {
-    height: 40,
-    width: '80%',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: '#f8bbd0', 
-    borderRadius: 8,
-    backgroundColor: '#ffffff', 
-    marginVertical: 10,
-  },
-  button: {
-    backgroundColor: '#ec407a', 
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 6,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ec407a',
-    marginTop: 10,
-  },
-  textoBoton: {
-    color: '#fff',
-    fontWeight: '700',
-  },
-  link: {
-    color: '#d81b60', 
-    marginTop: 12,
-    fontWeight: '600',
-  },
-  text: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  subtitulo:{
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 15,
+   image: {
+    alignSelf: "center",
+    width: 200,          
+    height: 100,         
     marginBottom: 10,
   },
-  posteo:{
-    backgroundColor: "#a4cf2eff",
-    padding: 10,
-    marginVertical: 5,
+  title: {
+    fontSize: 30,
+    fontWeight: '800',
+    letterSpacing: 0.4,
+    color: '#ffffff',
+    marginBottom: 8,
+  },
+  subtitulo: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#c9d3db',
+    marginTop: 18,
+    marginBottom: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderColor: '#2a2f36',
+  },
+
+  text: {
+    fontSize: 15.5,
+    color: '#d7dbe0',
+    marginBottom: 4,
+  },
+  link: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#8ecbff',    
+    marginTop: 12,
+  },
+
+  input: {
+    height: 46,
+    width: '100%',
+    paddingHorizontal: 12,
     borderRadius: 10,
-  }
+    borderWidth: 1,
+    borderColor: '#2a2f36',
+    backgroundColor: '#171a1f',
+    color: '#e7eaee',
+    marginVertical: 8,
+  },
+
+   button: {
+    width: '100%',
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#00e054',
+    backgroundColor: '#0a0f14',
+    alignSelf: 'stretch',
+    marginTop: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+ textoBoton: {
+    color: '#ffffffff',
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
+    letterSpacing: 0.2,
+  },
+  posteo: {
+    backgroundColor: '#1b232a',
+    borderWidth: 1,
+    borderColor: '#2c3440',
+    borderRadius: 14,
+    padding: 14,
+    marginVertical: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 3,
+    borderLeftWidth: 3,
+    borderLeftColor: '#00e054',
+  },
+  badge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#2a2f36',
+    backgroundColor: '#0f1216',
+    color: '#8ecbff',
+    marginBottom: 8,
+  },
+  accentLine: {
+    height: 2,
+    backgroundColor: '#00e054', 
+    width: 48,
+    borderRadius: 2,
+    marginTop: 6,
+    marginBottom: 14,
+  },
 });
+
 
 export default Profile;
