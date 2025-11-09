@@ -66,7 +66,7 @@ export default class Register extends Component {
           />
           <TextInput
             style={styles.input}
-            placeholder='Contraseña'
+            placeholder='Contraseña (Mayor a 5 caracteres)'
             onChangeText={(text) => this.setState({ password: text })}
             value={this.state.password}
             secureTextEntry={true}
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgb(32 42 48)',    
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     paddingHorizontal: 16,
     paddingBottom: 24,
   },
