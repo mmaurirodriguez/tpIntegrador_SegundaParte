@@ -51,49 +51,76 @@ class Post extends Component {
 
 
 const styles = StyleSheet.create({
-    card: {
-        backgroundColor: '#fff0f6',
-        borderRadius: 10,
-        padding: 15,
-        marginVertical: 10,
-        marginHorizontal: 20,
-        borderWidth: 1,
-        borderColor: '#f8bbd0',
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        shadowOffset: { width: 0, height: 2 },
-    },
-    email: {
-        fontSize: 14,
-        color: '#ad1457',
-        fontWeight: '600',
-        marginBottom: 5,
-    },
-    comentario: {
-        fontSize: 16,
-        color: '#333',
-        marginBottom: 10,
-    },
-    likes: {
-        color: '#e91e63',
-        fontWeight: 'bold',
-        marginBottom: 8,
-        textAlign: 'center',
-    },
-    likeButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#ec407a',
-        borderRadius: 8,
-        paddingVertical: 6,
-        paddingHorizontal: 12,
-        alignSelf: 'center',
-    },
-    icon: {
-        fontSize: 20,
-        color: '#fff',
-    },
+  card: {
+    backgroundColor: 'rgba(20, 24, 28, 0.9)', 
+    borderRadius: 14,
+    padding: 16,
+    marginVertical: 10,
+    marginHorizontal: 20,
+    borderWidth: 1,
+    borderColor: '#2c3440',
+    borderLeftWidth: 3,
+    borderLeftColor: '#00e054',
+    shadowColor: '#000',
+    shadowOpacity: 0.18,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+
+  email: {
+    fontSize: 13.5,
+    color: '#9fd3ff',     
+    fontWeight: '700',
+    letterSpacing: 0.3,
+    marginBottom: 8,
+    textTransform: 'lowercase',
+  },
+
+  comentario: {
+    fontSize: 16,
+    color: '#e6ecf1',
+    lineHeight: 22,
+    marginBottom: 12,
+  },
+
+  likes: {
+    alignSelf: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#2c3440',
+    backgroundColor: '#152027',
+    color: '#00e054',
+    fontWeight: '800',
+    fontSize: 13.5,
+    letterSpacing: 0.4,
+    marginBottom: 10,
+    overflow: 'hidden',
+  },
+
+  likeButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#00e054',
+    backgroundColor: '#0a0f14',
+    shadowColor: '#00e054',
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+
+  icon: {
+    fontSize: 22,
+    color: '#00e054',
+    textAlign: 'center',
+  },
 });
 
 

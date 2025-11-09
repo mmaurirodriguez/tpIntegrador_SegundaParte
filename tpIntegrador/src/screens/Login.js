@@ -16,33 +16,30 @@ class Login extends Component {
   onSubmit(email, password) {
     if (!email.includes("@")) {
       this.setState({ error: 'Email mal formateado' })
-      console.log('Email mal formateado');
       return
     }
     if (password.length < 6) {
       this.setState({ error: 'Password debe tener minimo 6 caracteres' })
-      console.log('La contrasenia debe tener mínimo 6 caracteres');
       return
     }
     auth.signInWithEmailAndPassword(email, password)
       .then((response) => {
         this.setState({ loggedIn: true });
-        console.log('Usuario logueado:', response.user.email);
         this.props.navigation.navigate('HomeMenu', { screen: 'Home' })
       })
       .catch(error => {
-        this.setState({ error: 'Credenciales inválidas.' })
-        console.log('Credenciales inválidas:', error.message);
-
+        this.setState({ error: 'Usuario y/o contraseña incorrectos' })
       })
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.image}
+        <Image
+          style={styles.image}
           source={require('../../assets/letterbox.webp')}
-          resizeMode="conatin" />
+          resizeMode="contain"
+        />
 
         <Text style={styles.title}>Login</Text>
 
@@ -53,7 +50,6 @@ class Login extends Component {
           value={this.state.email}
           style={styles.input}
         />
-        <Text>{this.state.error}</Text>
         <TextInput
           keyboardType="default"
           placeholder="Password"
@@ -63,29 +59,36 @@ class Login extends Component {
           style={styles.input}
         />
 
-        <Pressable onPress={() => this.onSubmit(this.state.email, this.state.password)}>
-          <Text style={styles.button}>Login</Text>
+        {this.state.error ? (
+          <Text style={styles.errorText}>{this.state.error}</Text>
+        ) : null}
+
+        <Pressable style={styles.button} onPress={() => this.onSubmit(this.state.email, this.state.password)}>
+          <Text style={styles.text}>Login</Text>
         </Pressable>
 
-        <Pressable onPress={() => this.props.navigation.navigate('Register')}>
-          <Text style={styles.link}>Ir al registro</Text>
+        <Pressable style={styles.linkButton} onPress={() => this.props.navigation.navigate('Register')}>
+          <Text style={styles.linkText}>Ir al registro</Text>
         </Pressable>
-
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(32 42 48)',      
-    justifyContent: 'flex-end',      
-    paddingHorizontal: 16,
-    paddingBottom: 24,
+    backgroundColor: 'rgb(32 42 48)',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingTop: 60,
   },
   image: {
-    heigh: 400,
-    alignSelf: "center"
+    height: 100,
+    width: 200,
+    resizeMode: 'contain',
+    marginBottom: 30,
   },
   title: {
     fontSize: 34,
@@ -95,7 +98,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginBottom: 18,
   },
-
   input: {
     height: 44,
     width: '100%',
@@ -107,34 +109,36 @@ const styles = StyleSheet.create({
     color: '#e6e7eb',
     marginBottom: 12,
   },
-
-
   button: {
     width: '100%',
-    textAlign: 'left',
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: '#010106ff',
-    color: '#e6e7eb',
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#00e054',
+    backgroundColor: '#0a0f14',
+    alignSelf: 'stretch',
+    marginTop: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 3,
   },
-
-  link: {
-    width: '100%',
-    textAlign: 'left',
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderColor: '#2a2a2e',
+  text: {
+    color: '#ffffffff',
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
+    letterSpacing: 0.2,
+  },
+  linkButton: {
+    marginTop: 16,
+  },
+  linkText: {
     color: '#cfd2d6',
     fontSize: 16,
     fontWeight: '600',
   },
-
   errorText: {
     color: '#ff6b6b',
     marginBottom: 8,
@@ -143,3 +147,4 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
+

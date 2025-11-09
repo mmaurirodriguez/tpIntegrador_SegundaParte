@@ -27,10 +27,10 @@ export default class Register extends Component {
             createdAt: Date.now(),
           });
         })
-        .then((user) => {
+        .then(() => {
           this.props.navigation.navigate('Login');
         })
-        .catch((err) => {
+        .catch(() => {
           this.setState({ loading: false })
         });
     } else {
@@ -44,71 +44,83 @@ export default class Register extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.image}
+        <Image
+          style={styles.image}
           source={require('../../assets/letterbox.webp')}
-          resizeMode="conatin" />
+          resizeMode="contain"
+        />
 
-        <Text style={styles.titulo}> Crea tu cuenta </Text>
-        {this.state.error ? <Text style={styles.error}>El mail o la contraseña ingresada es incorrecta</Text> : null}
-        <View>
-          <TextInput
-            style={styles.input}
-            placeholder='Username'
-            onChangeText={(text) => this.setState({ username: text })}
-            value={this.state.username}
-          />
-          <TextInput
-            style={styles.input}
-            keyboardType='email-address'
-            placeholder='Correo electrónico'
-            onChangeText={(text) => this.setState({ email: text })}
-            value={this.state.email}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Contraseña'
-            onChangeText={(text) => this.setState({ password: text })}
-            value={this.state.password}
-            secureTextEntry={true}
-          />
-          <Pressable
-            onPress={() => this.submit(this.state.username, this.state.password, this.state.email)}
-          >
-            {this.state.loading ? (
-              <ActivityIndicator size="large" color="white" />) : null}
-            <Text style={styles.boton}>Siguiente</Text>
-          </Pressable>
-        </View>
+        <Text style={styles.title}>Crear cuenta</Text>
 
-        <Pressable style={styles.boton} onPress={() => this.props.navigation.navigate('Login')}>
-          <Text style={styles.text}>Ya tengo cuenta</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder='Nombre de usuario'
+          placeholderTextColor="#a8a8a8ff"
+          onChangeText={(text) => this.setState({ username: text })}
+          value={this.state.username}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder='Correo electrónico'
+          placeholderTextColor="#a8a8a8ff"
+          keyboardType='email-address'
+          onChangeText={(text) => this.setState({ email: text })}
+          value={this.state.email}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder='Contraseña'
+          placeholderTextColor="#a8a8a8ff"
+          secureTextEntry={true}
+          onChangeText={(text) => this.setState({ password: text })}
+          value={this.state.password}
+        />
+         {this.state.error ? (
+          <Text style={styles.errorText}>El mail o la contraseña ingresada es incorrecta</Text>
+        ) : null}
+
+        <Pressable style={styles.button} onPress={() => this.submit(this.state.username, this.state.password, this.state.email)}>
+          {this.state.loading ? (
+            <ActivityIndicator size="small" color="#00e054" />
+          ) : (
+            <Text style={styles.text}>Registrarme</Text>
+          )}
+        </Pressable>
+
+        <Pressable style={styles.linkButton} onPress={() => this.props.navigation.navigate('Login')}>
+          <Text style={styles.linkText}>Ya tengo cuenta</Text>
         </Pressable>
       </View>
     )
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(32 42 48)',    
-    justifyContent: 'flex-end',
-    paddingHorizontal: 16,
-    paddingBottom: 24,
+    backgroundColor: 'rgb(32 42 48)',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingTop: 60,
   },
   image: {
-    heigh: 400,
-    alignSelf: "center"
+    height: 100,
+    width: 200,
+    resizeMode: 'contain',
+    marginBottom: 30,
   },
-
-  titulo: {
+  title: {
     fontSize: 34,
     fontWeight: '800',
-    color: '#ffffff',
     letterSpacing: 0.5,
+    color: '#ffffff',
     alignSelf: 'flex-start',
     marginBottom: 18,
   },
-
   input: {
     height: 44,
     width: '100%',
@@ -120,28 +132,37 @@ const styles = StyleSheet.create({
     color: '#e6e7eb',
     marginBottom: 12,
   },
-
-  boton: {
+  button: {
     width: '100%',
-    textAlign: 'left',
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: '#050517ff',
-    color: '#e6e7eb',
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#00e054',
+    backgroundColor: '#0a0f14',
+    alignSelf: 'stretch',
+    marginTop: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 3,
   },
-
   text: {
+    color: '#ffffffff',
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
+    letterSpacing: 0.2,
+  },
+  linkButton: {
+    marginTop: 16,
+  },
+  linkText: {
     color: '#cfd2d6',
     fontSize: 16,
     fontWeight: '600',
   },
-
-  error: {
+  errorText: {
     color: '#ff6b6b',
     marginBottom: 8,
     alignSelf: 'flex-start',
