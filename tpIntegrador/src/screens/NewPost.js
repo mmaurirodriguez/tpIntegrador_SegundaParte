@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Pressable, Text, StyleSheet, TextInput } from "react-native"
-import { db, auth } from "../FireBase/config";
+import { auth, db } from "../firebase/config";
+
 
 class NuevoPost extends Component {
     constructor(props) {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
-//siemore ajustar esta ruta para que lleve a la confug de firebase
-import { auth, db} from './firebase/config';
+import { View, Text, StyleSheet, Pressable, TextInput, Image } from 'react-native';
+import { auth } from '../firebase/config';
 
 class Login extends Component {
   constructor(props) {
@@ -9,31 +8,31 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      loggedIn:false,
-      error:''
+      loggedIn: false,
+      error: ''
     };
   }
-  
+
   onSubmit(email, password) {
     if (!email.includes("@")) {
       this.setState({ error: 'Email mal formateado' })
-        console.log('Email mal formateado');
+      console.log('Email mal formateado');
       return
     }
     if (password.length < 6) {
       this.setState({ error: 'Password debe tener minimo 6 caracteres' })
-       console.log('La contrasenia debe tener mínimo 6 caracteres');
+      console.log('La contrasenia debe tener mínimo 6 caracteres');
       return
     }
     auth.signInWithEmailAndPassword(email, password)
       .then((response) => {
         this.setState({ loggedIn: true });
-         console.log('Usuario logueado:', response.user.email);
-        this.props.navigation.navigate('HomeMenu', { screen: 'Home' })
+        console.log('Usuario logueado:', response.user.email);
+        this.props.navigation.navigate('Home', { screen: 'Home' })
       })
       .catch(error => {
         this.setState({ error: 'Credenciales inválidas.' })
-         console.log('Credenciales inválidas:', error.message);
+        console.log('Credenciales inválidas:', error.message);
 
       })
   };
@@ -41,6 +40,10 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image style={styles.image}
+          source={require('../../assets/letterbox.webp')}
+          resizeMode="conatin" />
+
         <Text style={styles.title}>Login</Text>
 
         <TextInput
@@ -72,51 +75,70 @@ class Login extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff0f6', 
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    marginTop: 20,
+    backgroundColor: 'rgb(32 42 48)',      
+    justifyContent: 'flex-end',      
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+  },
+  image: {
+    heigh: 400,
+    alignSelf: "center"
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#e91e63', 
-    marginBottom: 20,
+    fontSize: 34,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+    color: '#ffffff',
+    alignSelf: 'flex-start',
+    marginBottom: 18,
   },
+
   input: {
-    height: 40,
-    width: '80%',
-    paddingVertical: 10,
+    height: 44,
+    width: '100%',
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: '#f8bbd0', 
+    borderColor: '#2a2a2e',
     borderRadius: 8,
-    backgroundColor: '#ffffff', 
-    marginVertical: 10,
+    backgroundColor: '#17181b',
+    color: '#e6e7eb',
+    marginBottom: 12,
   },
+
+
   button: {
-    backgroundColor: '#ec407a', 
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 6,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ec407a',
-    marginTop: 10,
-  },
-  textoBoton: {
-    color: '#fff',
-    fontWeight: '700',
-  },
-  link: {
-    color: '#d81b60', 
-    marginTop: 12,
+    width: '100%',
+    textAlign: 'left',
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#010106ff',
+    color: '#e6e7eb',
+    fontSize: 16,
     fontWeight: '600',
+    marginTop: 8,
+  },
+
+  link: {
+    width: '100%',
+    textAlign: 'left',
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    borderBottomWidth: 1,
+    borderColor: '#2a2a2e',
+    color: '#cfd2d6',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  errorText: {
+    color: '#ff6b6b',
+    marginBottom: 8,
+    alignSelf: 'flex-start',
   },
 });
 

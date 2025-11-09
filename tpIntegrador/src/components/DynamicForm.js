@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 
 export default class DynamicForm extends Component {
   constructor(props) {

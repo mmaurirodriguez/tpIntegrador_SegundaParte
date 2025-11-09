@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { auth, db } from './src/firebase/config';
 import firebase from 'firebase';
+import { auth, db } from '../firebase/config';
 
 //falta like : [] es NewPost para que funciones --> osea la creacion del post
 

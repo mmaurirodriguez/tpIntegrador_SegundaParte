@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { db, auth } from "../FireBase/config";
 import { FlatList, Text, View, StyleSheet } from "react-native";
-import Posts from "../components/Posts";
-import { auth, db} from './firebase/config';
+import { db } from "../firebase/config";
+import Post from "../components/Post";
 
 class Home extends Component {
     constructor(props) {
@@ -35,11 +34,16 @@ class Home extends Component {
                 <FlatList
                     data={this.state.posts}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <Posts data={item} />}
+                    renderItem={({ item }) => <Post data={item} />}
                 />
             </View>
         );
     }
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    }
+})
 export default Home;
