@@ -57,23 +57,15 @@ const styles = StyleSheet.create({
     padding: 16,
     marginVertical: 10,
     marginHorizontal: 20,
-    borderWidth: 1,
-    borderColor: '#2c3440',
     borderLeftWidth: 3,
     borderLeftColor: '#00e054',
-    shadowColor: '#000',
-    shadowOpacity: 0.18,
     shadowRadius: 10,
-    elevation: 4,
   },
 
   email: {
-    fontSize: 13.5,
     color: '#9fd3ff',     
     fontWeight: '700',
-    letterSpacing: 0.3,
     marginBottom: 8,
-    textTransform: 'lowercase',
   },
 
   comentario: {
@@ -84,7 +76,7 @@ const styles = StyleSheet.create({
   },
 
   likes: {
-    alignSelf: 'center',
+    alignSelf: "flex-end",
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 999,
@@ -93,32 +85,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#152027',
     color: '#00e054',
     fontWeight: '800',
-    fontSize: 13.5,
-    letterSpacing: 0.4,
     marginBottom: 10,
-    overflow: 'hidden',
   },
 
   likeButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    alignSelf: "flex-end",
     paddingVertical: 8,
-    paddingHorizontal: 18,
+    paddingHorizontal: 10,
     borderRadius: 999,
     borderWidth: 1,
     borderColor: '#00e054',
     backgroundColor: '#0a0f14',
-    shadowColor: '#00e054',
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
   },
 
   icon: {
-    fontSize: 22,
-    color: '#00e054',
+    fontSize: 18,
     textAlign: 'center',
   },
 });

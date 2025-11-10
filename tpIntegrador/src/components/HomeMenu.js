@@ -7,6 +7,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import NewPost from "../screens/NewPost"
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import {  StyleSheet } from 'react-native';
 
 
 const Tab = createBottomTabNavigator()
@@ -17,19 +18,20 @@ function HomeMenu() {
             <Tab.Screen name="Home" component={Home} options={
                 {
                     headerShown: false,
-                    tabBarIcon: () => <Entypo name="home" size={24} color="black" />
+                    tabBarIcon: () => <Entypo name="home" size={24} color='rgb(32 42 48)' />
                 }} />
-            <Tab.Screen name="Nuevo Post" component={NewPost} options={{
+            <Tab.Screen  name="Nuevo Post" component={NewPost} options={{
                 headerShown: false,
-                tabBarIcon: () => <Feather name="plus-circle" size={24} color="black" />
+                tabBarIcon: () => <Feather name="plus-circle" size={24} color='rgb(32 42 48)' />
             }} />
-            <Tab.Screen name="Profile" component={Profile} options={{
+            <Tab.Screen  name="Profile" component={Profile} options={{
                 headerShown: false,
-                tabBarIcon: () =><FontAwesome6 name="user-large" size={24} color="black" />
+                tabBarIcon: () =><FontAwesome6 name="user-large" size={24} color="rgb(32 42 48)" />
             }} />
 
         </Tab.Navigator>
     )
 }
+   
 
 export default HomeMenu;
