@@ -14,19 +14,11 @@ class NewPost extends Component {
 
   componentDidMount() {
     auth.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({
-          logged: true,
-          loading: false
-        });
-      } else {
-        this.setState({
-          logged: false,
-          loading: false
-        });
+          if (!user) {
+            this.props.navigation.navigate('Login')
+          }
+        })
       }
-    });
-  }
 
   OnSubmit() {
     if (this.state.comentario.length > 0) {

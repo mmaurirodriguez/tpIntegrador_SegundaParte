@@ -10,17 +10,22 @@ class Profile extends Component {
     super(props);
     this.state = {
       email: '',
-      // usuario: '',
       posts: [],
-      loading: true
+      loading: true,
+      usuario: {}
     }
   }
 
   componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        this.props.navigation.navigate('Login')
+      }
+    })
+
     if (auth.currentUser) {
       this.setState({
         email: auth.currentUser.email,
-        // usuario: auth.currentUser.displayName
       })
       db.collection("posts").where("email", "==", auth.currentUser.email).onSnapshot(
         docs => {
@@ -32,19 +37,28 @@ class Profile extends Component {
             });
           });
           this.setState({
-              posts: postsArray,
-              loading: false
-            });
+            posts: postsArray,
+            loading: false
+          });
         });
+      db.collection("users").where("email", "==", auth.currentUser.email).onSnapshot(
+        docs => {
+          let usersArray = [];
+          docs.forEach(doc => {
+            usersArray.push ({
+              id: doc.id,
+              data: doc.data(),
+            });
+          this.setState({
+            usuario: usersArray[0].data
+          })
+          })
+        }
+      )
     }
   }
 
-  eliminarPosteo(id) {
-    db.collection("posts").doc(id)
-      .delete()
-      .then(() => console.log("Post eliminado"))
-      .catch((error) => console.log(error));
-  }
+
 
   logout() {
     auth.signOut()
@@ -67,9 +81,12 @@ class Profile extends Component {
           resizeMode="contain"
         />
         <Text style={styles.title}>Mi Perfil</Text>
-        {this.state.loading || this.state.posts.length === 0 ? (<ActivityIndicator size='large' color='green' />) : null}
+        {this.state.loading ? (
+          <ActivityIndicator size='large' color='green' />
+        ) : null}
 
-        {/* <Text style={styles.text}>Nombre: {this.state.usuario}</Text> */}
+
+        <Text style={styles.text}>Nombre: {this.state.usuario.username}</Text> 
         <Text style={styles.text}>Email: {this.state.email}</Text>
 
         <Text style={styles.subtitulo}>Mis Posteos:</Text>
@@ -78,13 +95,8 @@ class Profile extends Component {
           data={this.state.posts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.posteo}>
+            <View>
               <Post data={item} />
-              <Pressable
-                style={styles.button}
-                onPress={() => this.eliminarPosteo(item.id)}>
-                <Text style={styles.textoBoton}>Borrar</Text>
-              </Pressable>
             </View>
           )}
         />
