@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, ActivityIndicator, Image } from 'react-native';
 import { auth, db } from '../firebase/config';
-import { FlatList } from 'react-native-web';
+import { FlatList } from 'react-native';
+import Post from '../components/Post';
 
 
 class Profile extends Component {
@@ -9,8 +10,8 @@ class Profile extends Component {
     super(props);
     this.state = {
       email: '',
-      usuario: '',
-      posteos: [],
+      // usuario: '',
+      posts: [],
       loading: true
     }
   }
@@ -19,24 +20,22 @@ class Profile extends Component {
     if (auth.currentUser) {
       this.setState({
         email: auth.currentUser.email,
-        usuario: auth.currentUser.displayName
+        // usuario: auth.currentUser.displayName
       })
-      db.collection('posts').where("owner", "==", auth.currentUser.email)
-        .onSnapshot(
-          docs => {
-            let posteos = [];
-            docs.forEach(doc => {
-              users.push({
-                id: doc.id,
-                data: doc.data()
-              })
-              this.setState({
-                posteos: posteos,
-                loading: false
-              })
-            })
-          }
-        )
+      db.collection("posts").where("email", "==", auth.currentUser.email).onSnapshot(
+        docs => {
+          let postsArray = [];
+          docs.forEach(doc => {
+            postsArray.push({
+              id: doc.id,
+              data: doc.data(),
+            });
+          });
+          this.setState({
+              posts: postsArray,
+              loading: false
+            });
+        });
     }
   }
 
@@ -68,19 +67,19 @@ class Profile extends Component {
           resizeMode="contain"
         />
         <Text style={styles.title}>Mi Perfil</Text>
-        {this.state.loading ? (<ActivityIndicator size='large' color='green' />) : null}
+        {this.state.loading || this.state.posts.length === 0 ? (<ActivityIndicator size='large' color='green' />) : null}
 
-        <Text style={styles.text}>Nombre: {this.state.usuario}</Text>
+        {/* <Text style={styles.text}>Nombre: {this.state.usuario}</Text> */}
         <Text style={styles.text}>Email: {this.state.email}</Text>
 
         <Text style={styles.subtitulo}>Mis Posteos:</Text>
 
         <FlatList
-          data={this.state.posteos}
+          data={this.state.posts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.posteo}>
-              <Text>{item.data.texto}</Text>
+              <Post data={item} />
               <Pressable
                 style={styles.button}
                 onPress={() => this.eliminarPosteo(item.id)}>
@@ -102,15 +101,15 @@ class Profile extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(32,42,48)', 
+    backgroundColor: 'rgb(32,42,48)',
     paddingHorizontal: 18,
     paddingTop: 46,
     paddingBottom: 24,
   },
-   image: {
+  image: {
     alignSelf: "center",
-    width: 200,          
-    height: 100,         
+    width: 200,
+    height: 100,
     marginBottom: 10,
   },
   title: {
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
   link: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#8ecbff',    
+    color: '#8ecbff',
     marginTop: 12,
   },
 
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
 
-   button: {
+  button: {
     width: '100%',
     paddingVertical: 14,
     paddingHorizontal: 14,
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
   },
- textoBoton: {
+  textoBoton: {
     color: '#ffffffff',
     fontSize: 16,
     fontWeight: '800',
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
   },
   accentLine: {
     height: 2,
-    backgroundColor: '#00e054', 
+    backgroundColor: '#00e054',
     width: 48,
     borderRadius: 2,
     marginTop: 6,
