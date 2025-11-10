@@ -44,6 +44,9 @@ class Post extends Component {
                             : '🤍'}
                     </Text>
                 </Pressable>
+                <Pressable onPress={()=>this.props.navigation.navigate('NuevoComentario',{id:this.props.data.id,email:this.props.data.data.email,comentarios:this.props.data.data.comentarios,comentario:this.props.data.data.comentario})}>
+                  <Text style={styles.comentario}>Agregar comentario...</Text>
+                </Pressable>
             </View>
         );
     }

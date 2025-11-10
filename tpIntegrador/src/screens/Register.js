@@ -9,28 +9,31 @@ export default class Register extends Component {
       username: '',
       password: '',
       email: '',
-      error: false,
+      error: "",
       loading: false
     }
   }
 
-   componentDidMount(){
-      auth.onAuthStateChanged(user =>{
-        if(user){
-          this.props.navigation.navigate('HomeMenu')
-        }
-      })
-    }
+  componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        this.props.navigation.navigate('Login')
+      }
+    })
+  }
 
   submit(username, password, email) {
     this.setState({
       loading: true
     })
-    if (username.length > 0 && password.length > 5 && email.includes("@")) {
+    if (username.length > 0) {
       auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          auth.signOut()
+        })
         .then((res) => {
           return db.collection('users').add({
-            email: auth.currentUser.email,
+            email: this.state.email,
             username: username,
             createdAt: Date.now(),
           });
@@ -38,12 +41,19 @@ export default class Register extends Component {
         .then(() => {
           this.props.navigation.navigate('Login');
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ loading: false })
+          if (e.message == 'The email address is badly formatted.') {
+            this.setState({ error: "el email esta mal formateado" })
+          } if (e.message == "The password must be 6 characters long or more.") {
+            this.setState({ error: "la contraseña debe tener al menos 6 caracteres" })
+          }
+          console.log(e.message)
         });
-    } else {
+    }
+    else {
       this.setState({
-        error: true,
+        error: "el nombre de usuario debe tener al menos 5 carcateres",
         loading: false
       });
     }
@@ -86,8 +96,8 @@ export default class Register extends Component {
           onChangeText={(text) => this.setState({ password: text })}
           value={this.state.password}
         />
-         {this.state.error ? (
-          <Text style={styles.errorText}>El mail o la contraseña ingresada es incorrecta</Text>
+        {this.state.error ? (
+          <Text style={styles.errorText}>{this.state.error}</Text>
         ) : null}
 
         <Pressable style={styles.button} onPress={() => this.submit(this.state.username, this.state.password, this.state.email)}>

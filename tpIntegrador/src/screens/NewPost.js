@@ -26,12 +26,13 @@ class NewPost extends Component {
         .add({
           email: auth.currentUser.email,
           comentario: this.state.comentario,
+          comentarios:[],
           createdAt: Date.now(),
           like: []
         })
         .then(() => {
           this.setState({ comentario: "", error: "" });
-          this.props.navigation.navigate("Home");
+          this.props.navigation.navigate("NavegacionComentario","Home");
         })
         .catch(e => console.log(e));
     } else {
