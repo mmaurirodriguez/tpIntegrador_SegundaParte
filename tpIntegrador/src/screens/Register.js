@@ -26,7 +26,7 @@ export default class Register extends Component {
     this.setState({
       loading: true
     })
-    if (username.length > 0) {
+    if (username.length > 5) {
       auth.createUserWithEmailAndPassword(email, password)
         .then(() => {
           auth.signOut()
@@ -45,7 +45,7 @@ export default class Register extends Component {
           this.setState({ loading: false })
           if (e.message == 'The email address is badly formatted.') {
             this.setState({ error: "el email esta mal formateado" })
-          } if (e.message == "The password must be 6 characters long or more.") {
+          } if (e.message == "Password should be at least 6 characters") {
             this.setState({ error: "la contraseña debe tener al menos 6 caracteres" })
           }
           console.log(e.message)
@@ -53,7 +53,7 @@ export default class Register extends Component {
     }
     else {
       this.setState({
-        error: "el nombre de usuario debe tener al menos 5 carcateres",
+        error: "el nombre de usuario debe tener al menos 5 caracteres",
         loading: false
       });
     }

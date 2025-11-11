@@ -21,7 +21,6 @@ class Post extends Component {
                     : firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email),
             })
             .then(() => {
-                // código a ejecutar luego de actualizar
             });
     }
 
@@ -32,8 +31,6 @@ class Post extends Component {
                 <Text style={styles.email}>{this.props.data.data.email}</Text>
                 <Text style={styles.comentario}>{this.props.data.data.comentario}</Text>
                 <Text style={styles.likes}>{this.props.data.data.like.length}</Text>
-
-
                 <Pressable
                     style={styles.likeButton}
                     onPress={() => this.actualizarDatos()}
@@ -51,7 +48,6 @@ class Post extends Component {
         );
     }
 }
-
 
 const styles = StyleSheet.create({
   card: {

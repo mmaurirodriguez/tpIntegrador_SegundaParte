@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, Image, ActivityIndicator, FlatList } from 'react-native';
-import { auth,db } from '../firebase/config';
+import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
 import Post from '../components/Post';
 
@@ -20,11 +20,11 @@ class AgregarComentario extends Component {
         db.collection('posts')
             .doc(this.props.route.params.id)
             .update({
-                comentarios: firebase.firestore.FieldValue.arrayUnion({email:auth.currentUser.email,comentario:this.state.comentario}),
+                comentarios: firebase.firestore.FieldValue.arrayUnion({ email: auth.currentUser.email, comentario: this.state.comentario }),
             })
             .then(() => {
-                // código a ejecutar luego de actualizar
             });
+            
     }
 
     render() {
@@ -35,10 +35,10 @@ class AgregarComentario extends Component {
                     source={require('../../assets/letterbox.webp')}
                     resizeMode="contain"
                 />
-            <View style={styles.card}>
-                <Text style={styles.email}>Propietario: {this.props.route.params.email}</Text>
-                <Text style={styles.comentario}>Posteo: {this.props.route.params.comentario}</Text>
-            </View>
+                <View style={styles.card}>
+                    <Text style={styles.email}>Propietario: {this.props.route.params.email}</Text>
+                    <Text style={styles.comentario}>Posteo: {this.props.route.params.comentario}</Text>
+                </View>
 
                 <Text style={styles.title}>Agregar comentario</Text>
 
@@ -52,10 +52,10 @@ class AgregarComentario extends Component {
                             <Text style={styles.comentario}>{item.comentario}</Text>
                         </View>
                     )}
-                /> 
+                />
 
 
-                <TextInput 
+                <TextInput
                     keyboardType="default"
                     placeholder="Comentario..."
                     onChangeText={text => this.setState({ comentario: text })}
@@ -66,6 +66,7 @@ class AgregarComentario extends Component {
                     <Text style={styles.text}>Publicar comentario</Text>
                 </Pressable>
             </View>
+            
         )
     }
 }
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 24,
         paddingTop: 60,
-        width:"100%"
+        width: "100%"
     },
     image: {
         height: 100,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        fontWeight: '800',
+        fontWeight: '700',
         color: '#ffffff',
         alignSelf: 'flex-start',
         marginBottom: 18,
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#17181b',
         color: '#e6ebe6ff',
         marginBottom: 12,
-        padding:20,
+        padding: 20,
         borderColor: '#20bb20ff',
         borderWidth: 2
     },
@@ -119,42 +120,34 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         textAlign: 'center',
     },
-    linkButton: {
-        marginTop: 16,
-    },
-    linkText: {
-        color: '#cfd2d6',
-        fontSize: 16,
-        fontWeight: '600',
-    },
+
     errorText: {
         color: '#ff6b6b',
         marginBottom: 8,
         alignSelf: 'flex-start',
     },
     card: {
-    backgroundColor: 'rgba(20, 24, 28, 0.9)', 
-    borderRadius: 14,
-    padding: 16,
-    marginVertical: 10,
-    marginHorizontal: 20,
-    borderLeftWidth: 3,
-    borderLeftColor: '#00e054',
-    shadowRadius: 10,
-    width:"90vw"
-  },
-  email: {
-    color: '#9fd3ff',     
-    fontWeight: '700',
-    marginBottom: 8,
-  },
+        backgroundColor: 'rgba(20, 24, 28, 0.9)',
+        borderRadius: 14,
+        padding: 16,
+        marginVertical: 10,
+        borderLeftWidth: 3,
+        borderLeftColor: '#00e054',
+        shadowRadius: 10,
+        width: "90vw"
+    },
+    email: {
+        color: '#9fd3ff',
+        fontWeight: '700',
+        marginBottom: 8,
+    },
 
-  comentario: {
-    fontSize: 16,
-    color: '#e6ecf1',
-    lineHeight: 22,
-    marginBottom: 12,
-  }
+    comentario: {
+        fontSize: 16,
+        color: '#e6ecf1',
+        lineHeight: 22,
+        marginBottom: 12,
+    }
 });
 
 
